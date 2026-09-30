@@ -111,6 +111,31 @@ def theoretical_min_sessions(number_of_teams: int, number_of_rooms: int) -> int:
     return max(2, math.ceil(number_of_teams / number_of_rooms))
 
 
+def _front_loaded_session_targets(
+    number_of_teams: int, number_of_rooms: int, sessions: int
+) -> list[int]:
+    """Return the required number of debates in each session.
+
+    There are exactly ``number_of_teams`` debates in the event because every
+    team debates twice. A session can never host more than half the teams, even
+    if more physical rooms are available. Within that structural limit, all
+    avoidable empty room slots are pushed to the final session.
+    """
+    if sessions <= 0:
+        return []
+    max_parallel = min(number_of_rooms, number_of_teams // 2)
+    if max_parallel <= 0:
+        return [0] * sessions
+
+    remaining = number_of_teams
+    targets: list[int] = []
+    for _ in range(sessions):
+        debates_now = min(max_parallel, remaining)
+        targets.append(debates_now)
+        remaining -= debates_now
+    return targets
+
+
 def _candidate_edges(teams: list[Team]) -> list[tuple[int, int, int]]:
     by_category: dict[str, list[int]] = defaultdict(list)
     for i, team in enumerate(teams):
@@ -206,10 +231,13 @@ def _build_pairing_model(
                     coeffs[y[(q, a, b, s)]] = 1.0
             builder.constraint(coeffs, ub=1.0)
 
-    # Session capacity induced by the number of rooms.
+    # Front-load the programme: all avoidable spare-room capacity belongs to
+    # the final session. This is a hard operational rule, not a preference.
+    session_targets = _front_loaded_session_targets(len(teams), rooms, sessions)
     for s in range(1, sessions + 1):
         coeffs = {y[(q, i, j, s)]: 1.0 for q, i, j in edges}
-        builder.constraint(coeffs, ub=float(rooms))
+        target = float(session_targets[s - 1])
+        builder.constraint(coeffs, lb=target, ub=target)
 
     # Side variables. For a selected edge, exactly one endpoint is POUR.
     for i in range(len(teams)):
@@ -404,8 +432,18 @@ def _assign_sessions_and_rooms_exact(
     """Jointly optimize sessions and rooms for the already chosen debates.
 
     Pairings and POUR/CONTRE sides are fixed by the first MILP. This second
-    exact MILP is deliberately room-centric: it may move a fixed debate to a
-    different session so that category-dedicated room blocks can remain stable.
+    exact MILP may move a fixed debate to another session. Its operational
+    priorities are deliberately explicit:
+
+    1. keep both categories active in as many sessions as possible;
+    2. minimize real S1/S2 changes in each room, including across an empty gap;
+    3. keep category sharing concentrated on as few rooms as possible;
+    4. anchor Secondary 1 to the first rooms and Secondary 2 to the last rooms;
+    5. keep all avoidable spare capacity in the final session.
+
+    Importantly, occupied rooms do *not* have to be consecutive. With five
+    rooms, one S1 debate and one S2 debate should naturally use rooms 1 and 5,
+    rather than rooms 1 and 2. This greatly improves room-category stability.
     """
     builder = _MilpBuilder()
 
@@ -453,23 +491,27 @@ def _assign_sessions_and_rooms_exact(
                     coeffs[slot[(d_idx, session, room)]] = 1.0
             builder.constraint(coeffs, ub=1.0)
 
-    # Keep occupancy front-loaded. Session labels are operational rather than
-    # semantic, so an earlier session should never contain fewer debates than
-    # the following one. This pushes spare rooms toward the end of the event.
-    for session in range(1, sessions):
-        coeffs: dict[int, float] = {}
-        for d_idx in range(len(debates)):
-            for room in range(1, rooms + 1):
-                coeffs[slot[(d_idx, session, room)]] = 1.0
-                coeffs[slot[(d_idx, session + 1, room)]] = -1.0
-        builder.constraint(coeffs, lb=0.0)
+    # Hard session occupancy targets. The first sessions contain as many
+    # debates as structurally possible; all avoidable spare capacity is pushed
+    # to the final session. Which physical room is left empty is deliberately
+    # *not* fixed here, so category zones can remain stable.
+    session_targets = _front_loaded_session_targets(len(teams), rooms, sessions)
+    for session in range(1, sessions + 1):
+        builder.constraint(
+            {
+                slot[(d_idx, session, room)]: 1.0
+                for d_idx in range(len(debates))
+                for room in range(1, rooms + 1)
+            },
+            lb=float(session_targets[session - 1]),
+            ub=float(session_targets[session - 1]),
+        )
 
     categories = sorted({d.category for d in debates})
 
     # ------------------------------------------------------------------
-    # Strict objective hierarchy for room stability.
-    # Questions deliberately do not influence room assignment: a room using
-    # both Question 1 and Question 2 is normal and expected.
+    # Strict lexicographic-style objective hierarchy through dominating
+    # integer weights. Questions do not influence the choice of room.
     # ------------------------------------------------------------------
     lower_total = 0
 
@@ -483,48 +525,47 @@ def _assign_sessions_and_rooms_exact(
     q_order_weight = lower_total + 1
     lower_total += max_q_order * q_order_weight
 
-    # Then: spatial zoning. Early room numbers belong preferably to the first
-    # category (Secondaire 1), later room numbers to the second category.
+    # Then: prefer S1 toward low room numbers and S2 toward high room numbers.
     max_zone_distance = len(debates) * max(0, rooms - 1)
     zone_weight = lower_total + 1
     lower_total += max_zone_distance * zone_weight
 
-    # Then: once a mixed room has moved from an earlier category to a later
-    # category, do not move it back. Penalizing chronological category
-    # inversions makes each mixed room monotone (S1 ... S1, then S2 ... S2),
-    # so an unavoidable shared room normally changes category only once.
+    # Then: avoid chronological reversals such as S2 -> ... -> S1 in one room.
     category_pairs = len(categories) * max(0, len(categories) - 1) // 2
     max_inversions = rooms * category_pairs * sessions * max(0, sessions - 1) // 2
     inversion_weight = lower_total + 1
     lower_total += max_inversions * inversion_weight
 
-    # Then: minimize the number of rooms that ever host more than one category.
-    # This remains important, but it is deliberately below session compaction:
-    # a mixed S1/S2 boundary room is preferable to leaving avoidable holes in
-    # early sessions.
-    mixed_room_weight = lower_total + 1
+    # Then: concentrate unavoidable category sharing on as few rooms as possible.
     max_mixed_rooms = rooms if len(categories) > 1 else 0
+    mixed_room_weight = lower_total + 1
     lower_total += max_mixed_rooms * mixed_room_weight
 
-    # Highest tier: compact debates into the earliest sessions. A one-unit
-    # reduction in the summed session indices dominates every possible gain in
-    # room-category stability and all lower tie-breakers.
-    session_packing_weight = lower_total + 1
-    for d_idx in range(len(debates)):
-        for session in range(1, sessions + 1):
-            if session == 1:
-                continue
-            for room in range(1, rooms + 1):
-                builder.c[slot[(d_idx, session, room)]] += (
-                    session_packing_weight * (session - 1)
-                )
+    # Then: minimize actual category switches between two consecutive *uses* of
+    # a room. Empty sessions do not hide a switch: S1 -> empty -> S2 counts as
+    # one operational change, matching the independent analysis.
+    max_category_switches = rooms * max(0, sessions - 1)
+    category_switch_weight = lower_total + 1
+    lower_total += max_category_switches * category_switch_weight
+
+    # Highest tier: maximize category presence across the day. This prevents a
+    # layout with all S1 debates first and all S2 debates later when the two
+    # categories can run in parallel. One missing category/session dominates
+    # every possible room-stability or tie-breaker gain below it.
+    max_missing_category_sessions = len(categories) * sessions
+    category_presence_weight = lower_total + 1
+    lower_total += max_missing_category_sessions * category_presence_weight
 
     # Exact category activity by room/session.
     use_category_session: dict[tuple[str, int, int], int] = {}
-    for category in categories:
-        matching_debates = [
+    debates_by_category: dict[str, list[int]] = {
+        category: [
             d_idx for d_idx, d in enumerate(debates) if d.category == category
         ]
+        for category in categories
+    }
+    for category in categories:
+        matching_debates = debates_by_category[category]
         for room in range(1, rooms + 1):
             for session in range(1, sessions + 1):
                 use = builder.var()
@@ -534,22 +575,129 @@ def _assign_sessions_and_rooms_exact(
                     coeffs[slot[(d_idx, session, room)]] = -1.0
                 builder.constraint(coeffs, lb=0.0, ub=0.0)
 
-    # Category use over the full event.
+    # Category presence by session. ``active`` is exactly 1 iff at least one
+    # debate of that category is scheduled in the session. We minimize the
+    # complementary ``inactive`` variables at the highest objective tier.
+    active_category_session: dict[tuple[str, int], int] = {}
+    for category in categories:
+        max_debates_in_session = max(1, len(debates_by_category[category]))
+        for session in range(1, sessions + 1):
+            active = builder.var()
+            inactive = builder.var(cost=category_presence_weight)
+            active_category_session[(category, session)] = active
+            builder.constraint({active: 1.0, inactive: 1.0}, lb=1.0, ub=1.0)
+
+            count_coeffs = {
+                use_category_session[(category, room, session)]: 1.0
+                for room in range(1, rooms + 1)
+            }
+            # active <= category debate count in the session
+            coeffs = dict(count_coeffs)
+            coeffs[active] = -1.0
+            builder.constraint(coeffs, lb=0.0)
+            # category debate count <= M * active
+            coeffs = dict(count_coeffs)
+            coeffs[active] = -float(max_debates_in_session)
+            builder.constraint(coeffs, ub=0.0)
+
+    # Spatial anchoring. With S1/S2, S1 grows from room 1 upward while S2 grows
+    # from the highest room downward. Empty rooms may remain in the middle.
+    # Example with five rooms and one debate per category: rooms 1 and 5.
+    if len(categories) == 1:
+        category = categories[0]
+        for session in range(1, sessions + 1):
+            for room in range(1, rooms):
+                builder.constraint(
+                    {
+                        use_category_session[(category, room + 1, session)]: 1.0,
+                        use_category_session[(category, room, session)]: -1.0,
+                    },
+                    ub=0.0,
+                )
+    elif len(categories) == 2:
+        early_category, late_category = categories
+        for session in range(1, sessions + 1):
+            # S1/earlier category = prefix from room 1.
+            for room in range(1, rooms):
+                builder.constraint(
+                    {
+                        use_category_session[(early_category, room + 1, session)]: 1.0,
+                        use_category_session[(early_category, room, session)]: -1.0,
+                    },
+                    ub=0.0,
+                )
+            # S2/later category = suffix toward the highest room.
+            for room in range(1, rooms):
+                builder.constraint(
+                    {
+                        use_category_session[(late_category, room, session)]: 1.0,
+                        use_category_session[(late_category, room + 1, session)]: -1.0,
+                    },
+                    ub=0.0,
+                )
+    elif len(categories) > 2:
+        # Defensive fallback for any future extra categories: retain strict
+        # left-to-right category ordering, without assuming the current UI.
+        for session in range(1, sessions + 1):
+            for later_idx in range(1, len(categories)):
+                later_category = categories[later_idx]
+                for earlier_idx in range(later_idx):
+                    earlier_category = categories[earlier_idx]
+                    for low_room in range(1, rooms):
+                        for high_room in range(low_room + 1, rooms + 1):
+                            builder.constraint(
+                                {
+                                    use_category_session[(later_category, low_room, session)]: 1.0,
+                                    use_category_session[(earlier_category, high_room, session)]: 1.0,
+                                },
+                                ub=1.0,
+                            )
+
+    # Exact category use over the full event (logical OR over sessions).
     use_category: dict[tuple[str, int], int] = {}
     for category in categories:
         for room in range(1, rooms + 1):
             use = builder.var()
             use_category[(category, room)] = use
-            for session in range(1, sessions + 1):
-                builder.constraint(
-                    {
-                        use: 1.0,
-                        use_category_session[(category, room, session)]: -1.0,
-                    },
-                    lb=0.0,
-                )
+            session_vars = [
+                use_category_session[(category, room, session)]
+                for session in range(1, sessions + 1)
+            ]
+            for session_var in session_vars:
+                builder.constraint({use: 1.0, session_var: -1.0}, lb=0.0)
+            coeffs = {use: 1.0}
+            for session_var in session_vars:
+                coeffs[session_var] = -1.0
+            builder.constraint(coeffs, ub=0.0)
 
-    # Next priority after session packing: number of mixed-category rooms.
+    # Count real category switches between consecutive uses of each room,
+    # including across one or more empty sessions.
+    if len(categories) > 1:
+        for room in range(1, rooms + 1):
+            for early_session in range(1, sessions):
+                for late_session in range(early_session + 1, sessions + 1):
+                    for category_a in categories:
+                        for category_b in categories:
+                            if category_a == category_b:
+                                continue
+                            switch = builder.var(cost=category_switch_weight)
+                            coeffs: dict[int, float] = {
+                                switch: 1.0,
+                                use_category_session[(category_a, room, early_session)]: -1.0,
+                                use_category_session[(category_b, room, late_session)]: -1.0,
+                            }
+                            # If any intermediate session uses this room, then
+                            # (early, late) are not consecutive uses and this
+                            # particular switch variable is not forced.
+                            for middle_session in range(early_session + 1, late_session):
+                                for middle_category in categories:
+                                    middle_var = use_category_session[
+                                        (middle_category, room, middle_session)
+                                    ]
+                                    coeffs[middle_var] = coeffs.get(middle_var, 0.0) + 1.0
+                            builder.constraint(coeffs, lb=-1.0)
+
+    # Minimize the number of rooms that ever host more than one category.
     if len(categories) > 1:
         for room in range(1, rooms + 1):
             mixed = builder.var(cost=mixed_room_weight)
@@ -564,10 +712,8 @@ def _assign_sessions_and_rooms_exact(
                         lb=-1.0,
                     )
 
-    # Second priority: forbid unnecessary back-and-forth category movement in
-    # a mixed room. Categories are ordered naturally: Secondaire 1 before
-    # Secondaire 2. A later category followed by an earlier category is an
-    # inversion and receives a strong penalty.
+    # Avoid unnecessary chronological backtracking between categories in one
+    # room (e.g. S2 in an early session followed by S1 later).
     if len(categories) > 1:
         for room in range(1, rooms + 1):
             for later_idx in range(1, len(categories)):
@@ -586,9 +732,7 @@ def _assign_sessions_and_rooms_exact(
                                 lb=-1.0,
                             )
 
-    # Third priority: stable spatial zones. With S1/S2 this pulls S1 toward
-    # room 1 and S2 toward the highest room number. If both categories need a
-    # shared room, it naturally tends to be a boundary/middle room.
+    # Stable spatial zones as a lower-level tie-breaker.
     if len(categories) > 1 and rooms > 1:
         last_category_index = len(categories) - 1
         for category_index, category in enumerate(categories):
@@ -602,8 +746,8 @@ def _assign_sessions_and_rooms_exact(
                         zone_weight * distance
                     )
 
-    # Fourth priority: Question 1 before Question 2 for each team. Pairings are
-    # already fixed, so this only influences the chronological placement.
+    # Question 1 before Question 2 for each team. Pairings are already fixed;
+    # this only influences chronology.
     debate_question_index = {
         d_idx: 0 if d.question == QUESTIONS[0] else 1
         for d_idx, d in enumerate(debates)
@@ -625,8 +769,8 @@ def _assign_sessions_and_rooms_exact(
                 coeffs[slot[(q2_idx, session, room)]] = -float(session)
         builder.constraint(coeffs, ub=0.0)
 
-    # Fifth priority: a team should change rooms between its two debates, but
-    # never at the cost of avoidable category mixing or extra category changes.
+    # A team should change rooms between its two debates when this does not
+    # compromise the higher operational priorities above.
     for d_indices in team_debates.values():
         if len(d_indices) != 2:
             continue

@@ -97,20 +97,26 @@ def test_preferences_can_be_reported_when_unavoidable() -> None:
     assert len(result.preference_metrics["same_school"]) == 4
 
 
-def test_rooms_stay_category_dedicated_when_possible() -> None:
+def test_rooms_follow_s1_low_s2_high_zones_in_each_session() -> None:
     event, _, teams = make_case(
         {"Secondaire 1": [2, 2, 2], "Secondaire 2": [2, 2]}, rooms=3
     )
-    result = generate_schedule(event, teams, time_limit=10)
+    result = generate_schedule(event, teams, time_limit=15)
     assert_valid(event, teams, result)
-    assert result.preference_metrics["mixed_category_rooms"] == []
-    assert result.preference_metrics["category_switches"] == []
 
-    room_categories: dict[int, set[str]] = {}
-    for debate in result.debates:
-        room_categories.setdefault(debate.room, set()).add(debate.category)
-    assert room_categories[1] == {"Secondaire 1"}
-    assert room_categories[3] == {"Secondaire 2"}
+    for session in range(1, result.summary.sessions + 1):
+        session_debates = [d for d in result.debates if d.session == session]
+        s1_rooms = sorted(d.room for d in session_debates if d.category == "Secondaire 1")
+        s2_rooms = sorted(d.room for d in session_debates if d.category == "Secondaire 2")
+
+        if s1_rooms:
+            assert s1_rooms == list(range(1, len(s1_rooms) + 1))
+        if s2_rooms:
+            assert s2_rooms == list(
+                range(event.number_of_rooms - len(s2_rooms) + 1, event.number_of_rooms + 1)
+            )
+        if s1_rooms and s2_rooms:
+            assert max(s1_rooms) < min(s2_rooms)
 
 
 def test_unavoidable_shared_room_changes_category_only_once() -> None:
@@ -178,3 +184,117 @@ def test_spare_rooms_are_pushed_to_the_last_session() -> None:
         for session in range(1, result.summary.sessions + 1)
     ]
     assert occupancy == [3, 3, 3, 1]
+
+
+def test_categories_use_opposite_room_edges_with_middle_gaps_allowed() -> None:
+    event, _, teams = make_case(
+        {
+            "Secondaire 1": [2, 2],
+            "Secondaire 2": [2, 2],
+        },
+        rooms=5,
+    )
+    result = generate_schedule(event, teams, time_limit=20)
+    assert_valid(event, teams, result)
+
+    # Four debates can run in parallel with eight teams, so one physical room
+    # is structurally unused. It should remain between the category zones:
+    # S1 in rooms 1-2 and S2 in rooms 4-5, not rooms 1-4.
+    for session in range(1, result.summary.sessions + 1):
+        session_debates = [d for d in result.debates if d.session == session]
+        assert sorted(d.room for d in session_debates) == [1, 2, 4, 5]
+        assert sorted(
+            d.room for d in session_debates if d.category == "Secondaire 1"
+        ) == [1, 2]
+        assert sorted(
+            d.room for d in session_debates if d.category == "Secondaire 2"
+        ) == [4, 5]
+
+
+def test_all_avoidable_empty_rooms_are_in_final_session() -> None:
+    event, _, teams = make_case(
+        {
+            "Secondaire 1": [2, 2, 2, 2, 2],
+            "Secondaire 2": [2, 2, 2],
+        },
+        rooms=5,
+    )
+    result = generate_schedule(event, teams, time_limit=20)
+    assert_valid(event, teams, result)
+
+    occupancy = [
+        sum(1 for debate in result.debates if debate.session == session)
+        for session in range(1, result.summary.sessions + 1)
+    ]
+    assert occupancy[:-1] == [event.number_of_rooms] * (len(occupancy) - 1)
+    assert occupancy[-1] <= event.number_of_rooms
+
+
+def test_category_switches_are_minimized_across_sessions() -> None:
+    event, _, teams = make_case(
+        {
+            "Secondaire 1": [2, 2, 2, 2],
+            "Secondaire 2": [2, 2, 2, 2],
+        },
+        rooms=5,
+    )
+    result = generate_schedule(event, teams, time_limit=20)
+    assert_valid(event, teams, result)
+
+    # Count actual S1/S2 changes between consecutive occupied sessions in each
+    # room. The compact 5/5/5/1 layout requires category sharing, but the
+    # optimizer must keep the moving boundary as stable as possible.
+    actual_switches = 0
+    for room in range(1, event.number_of_rooms + 1):
+        by_session = {
+            d.session: d.category for d in result.debates if d.room == room
+        }
+        for session in range(1, result.summary.sessions):
+            a = by_session.get(session)
+            b = by_session.get(session + 1)
+            if a is not None and b is not None and a != b:
+                actual_switches += 1
+
+    # The analysis helper should report the same number of switches, and this
+    # symmetric case can be arranged with only one category change overall.
+    assert actual_switches == len(result.preference_metrics["category_switches"])
+    assert actual_switches <= 1
+
+
+def test_both_categories_run_in_parallel_whenever_capacity_allows() -> None:
+    event, _, teams = make_case(
+        {
+            "Secondaire 1": [2, 2, 2, 2],
+            "Secondaire 2": [2, 2, 2, 2],
+        },
+        rooms=5,
+    )
+    result = generate_schedule(event, teams, time_limit=25)
+    assert_valid(event, teams, result)
+
+    occupancy = {
+        session: [d for d in result.debates if d.session == session]
+        for session in range(1, result.summary.sessions + 1)
+    }
+    # The front-loaded target is 5/5/5/1. In every session that can physically
+    # host at least two debates, both levels should be represented.
+    for session, debates in occupancy.items():
+        if len(debates) >= 2:
+            assert {d.category for d in debates} == {"Secondaire 1", "Secondaire 2"}
+
+
+def test_room_switch_count_includes_empty_gaps_and_is_kept_low() -> None:
+    event, _, teams = make_case(
+        {
+            "Secondaire 1": [2, 2, 2],
+            "Secondaire 2": [2, 2, 2],
+        },
+        rooms=5,
+    )
+    result = generate_schedule(event, teams, time_limit=25)
+    assert_valid(event, teams, result)
+
+    # This case requires the S1/S2 boundary to move, but the optimized layout
+    # can do so with a single operational room-category change overall. The
+    # independent analysis counts changes even when a room is empty in between.
+    assert len(result.preference_metrics["category_switches"]) <= 1
