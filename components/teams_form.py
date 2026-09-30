@@ -45,7 +45,7 @@ def _render_school_group(
                     "✕",
                     key=f"delete_school_{school.id}",
                     help=f"Retirer {school.name}",
-                    use_container_width=True,
+                    width="stretch",
                 ):
                     schools[:] = [s for s in schools if s.id != school.id]
                     teams[:] = [t for t in teams if t.school_id != school.id]
@@ -174,7 +174,7 @@ def render_teams_section(
             submitted = st.form_submit_button(
                 "Ajouter l’établissement",
                 type="primary",
-                use_container_width=True,
+                width="stretch",
             )
             if submitted:
                 if not school_name.strip():

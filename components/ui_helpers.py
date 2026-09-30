@@ -704,7 +704,7 @@ def render_brand_header(root: Path) -> None:
     c_logo, c_text = st.columns([1.15, 5.5])
     with c_logo:
         if logo:
-            st.image(str(logo), use_container_width=True)
+            st.image(str(logo), width="stretch")
         else:
             st.markdown(
                 '<div class="yes-logo-fallback"><strong>YES</strong>'

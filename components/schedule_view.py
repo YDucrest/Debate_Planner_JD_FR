@@ -235,7 +235,7 @@ def render_schedule_section(
             if st.button(
                 button_label,
                 type="primary",
-                use_container_width=True,
+                width="stretch",
             ):
                 try:
                     with st.spinner("Construction du planning optimal…"):

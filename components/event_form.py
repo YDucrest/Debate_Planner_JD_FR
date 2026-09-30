@@ -62,7 +62,7 @@ def render_event_section(
             with save_col:
                 st.markdown("**Sauvegarder l’événement actuel**")
                 st.caption("Conserve l’événement, les établissements et les équipes dans `data/app.db`.")
-                if st.button("Sauvegarder", use_container_width=True):
+                if st.button("Sauvegarder", width="stretch"):
                     save_event(event, schools, teams)
                     st.success("Événement sauvegardé.")
 
@@ -79,7 +79,7 @@ def render_event_section(
                         list(options),
                         label_visibility="collapsed",
                     )
-                    if st.button("Charger", use_container_width=True):
+                    if st.button("Charger", width="stretch"):
                         loaded_event, loaded_schools, loaded_teams = load_event(
                             options[selected_label]
                         )
