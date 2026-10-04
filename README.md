@@ -1,17 +1,12 @@
 <div align="center">
 
-<a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="135">
-</a>
-
-<br><br>
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="130">
 
 # Planificateur de débats
 
 ### La jeunesse débat
 
-**Créez le planning complet d'une finale régionale en quelques étapes.**  
-Équipes, questions, rôles, salles et sessions sont organisés automatiquement.
+**Préparez une finale régionale et générez automatiquement un planning clair, équilibré et prêt à l'emploi.**
 
 <br>
 
@@ -25,16 +20,16 @@
 
 <br><br>
 
-<img src="https://img.shields.io/badge/Streamlit-Application-00A0AE?style=flat-square&logo=streamlit&logoColor=white">
-<img src="https://img.shields.io/badge/Python-3.11+-28647A?style=flat-square&logo=python&logoColor=white">
-<img src="https://img.shields.io/badge/Optimisation-MILP-173642?style=flat-square">
-<img src="https://img.shields.io/badge/Sauvegarde-SQLite-008B98?style=flat-square&logo=sqlite&logoColor=white">
+<img src="https://img.shields.io/badge/Streamlit-00A0AE?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
+<img src="https://img.shields.io/badge/Python-3.11+-28647A?style=flat-square&logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/Optimisation-MILP-173642?style=flat-square" alt="MILP">
+<img src="https://img.shields.io/badge/Sauvegarde-SQLite-008B98?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
 
 <br><br>
 
-**[Découvrir](#-en-30-secondes)** ·
+**[Découvrir](#-le-principe)** ·
 **[Utiliser](#-comment-ça-marche)** ·
-**[Sauvegarder](#-sauvegarde)** ·
+**[Sauvegarder](#-en-ligne-ou-en-local-)** ·
 **[Installer](#-installation-locale)** ·
 **[FAQ](#-faq)** ·
 **[Contact](#-aide--contact)**
@@ -43,85 +38,21 @@
 
 ---
 
-## ✦ En 30 secondes
+## ✦ Le principe
 
-<table>
-<tr>
-<td width="50%" valign="top">
+Le **Planificateur de débats** automatise la préparation des finales régionales de **La jeunesse débat**.
 
-### 🌐 Je veux créer un planning
-
-Aucune installation.
-
-1. Ouvrir l'application
-2. Ajouter les équipes
-3. Indiquer les salles
-4. Générer le planning
+Vous renseignez les équipes et les salles disponibles.  
+L'application s'occupe du reste.
 
 <br>
-
-<a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img src="https://img.shields.io/badge/OUVRIR%20MAINTENANT-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white">
-</a>
-
-</td>
-<td width="50%" valign="top">
-
-### 💾 Je veux conserver mes événements
-
-Installez l'application sur votre ordinateur.
-
-Vous profitez de la même interface, avec une **sauvegarde locale durable** de vos événements.
-
-<br>
-
-<a href="#-installation-locale">
-  <img src="https://img.shields.io/badge/VOIR%20L'INSTALLATION-28647A?style=for-the-badge&logo=python&logoColor=white">
-</a>
-
-</td>
-</tr>
-</table>
-
-> [!IMPORTANT]
-> **Version en ligne ≠ sauvegarde permanente.**
->
-> Pour simplement créer un planning, utilisez l'application en ligne.  
-> Pour **enregistrer et retrouver vos événements plus tard**, utilisez la version locale.
-
----
-
-## 🧭 Comment ça marche ?
-
-<div align="center">
-
-**4 étapes. Une seule page. Aucun planning à construire manuellement.**
-
-</div>
-
-```mermaid
-flowchart LR
-    A["① ÉVÉNEMENT<br/><small>Nom & catégories</small>"]
-    B["② ÉQUIPES<br/><small>Écoles & participant·es</small>"]
-    C["③ SALLES<br/><small>Capacité disponible</small>"]
-    D["④ PLANNING<br/><small>Génération automatique</small>"]
-
-    A --> B --> C --> D
-
-    classDef first fill:#EAF7F8,stroke:#00A0AE,color:#173642,stroke-width:2px;
-    classDef middle fill:#F3FAFB,stroke:#28647A,color:#173642,stroke-width:2px;
-    classDef last fill:#173642,stroke:#00A0AE,color:#FFFFFF,stroke-width:2px;
-
-    class A first;
-    class B,C middle;
-    class D last;
-```
 
 <table>
 <tr>
 <td align="center" width="25%">
 
 ### 01
+
 **Événement**
 
 Nom de la finale  
@@ -131,55 +62,69 @@ et catégories
 <td align="center" width="25%">
 
 ### 02
+
 **Équipes**
 
-Établissements, équipes  
+Établissements  
 et participant·es
 
 </td>
 <td align="center" width="25%">
 
 ### 03
+
 **Salles**
 
 Nombre de salles  
-et contrôle de faisabilité
+disponibles
 
 </td>
 <td align="center" width="25%">
 
 ### 04
+
 **Planning**
 
-Optimisation, validation  
-et résultat final
+Génération et  
+validation automatique
 
 </td>
 </tr>
 </table>
 
+<div align="center">
+
+**Événement　→　Équipes　→　Salles　→　Planning**
+
+Une seule page. Quatre étapes. Aucun planning à construire manuellement.
+
+</div>
+
 ---
 
-## ✨ Le planificateur s'occupe du reste
+## ✨ Ce que l'application fait pour vous
 
 <table>
 <tr>
 <td width="33%" valign="top">
 
-### 🎯 Deux débats
+### 🎯 2 débats
+
 Chaque équipe participe à **exactement deux débats**.
 
 </td>
 <td width="33%" valign="top">
 
-### ❓ Deux questions
+### ❓ 2 questions
+
 Chaque équipe traite une fois **Question 1** et une fois **Question 2**.
 
 </td>
 <td width="33%" valign="top">
 
 ### 👥 Rôles équilibrés
-Les deux participant·es alternent automatiquement les rôles **1 ↔ 2**.
+
+Les participant·es alternent automatiquement les rôles **1 ↔ 2**.
 
 </td>
 </tr>
@@ -187,20 +132,23 @@ Les deux participant·es alternent automatiquement les rôles **1 ↔ 2**.
 <tr>
 <td width="33%" valign="top">
 
-### 🏫 Rencontres
-Le moteur cherche à diversifier les adversaires et à éviter les rencontres internes à un établissement.
+### 🤝 Rencontres optimisées
+
+Le moteur cherche à diversifier les adversaires et à limiter les rencontres au sein d'un même établissement.
 
 </td>
 <td width="33%" valign="top">
 
-### 🚪 Salles
-Les catégories restent séparées et stables autant que la configuration le permet.
+### 🚪 Salles organisées
+
+Les salles et les catégories sont réparties de manière cohérente pour faciliter le déroulement de la finale.
 
 </td>
 <td width="33%" valign="top">
 
-### ✅ Validation
-Le planning obtenu est **contrôlé indépendamment** après l'optimisation.
+### ✅ Planning vérifié
+
+Chaque résultat est soumis à une **validation indépendante** avant d'être affiché.
 
 </td>
 </tr>
@@ -208,156 +156,136 @@ Le planning obtenu est **contrôlé indépendamment** après l'optimisation.
 
 ---
 
-## 🗓️ Du formulaire au planning
+## 🧭 Comment ça marche ?
 
-```mermaid
-flowchart TB
-    INPUT["Équipes + catégories + salles"]
+### 1. Définir l'événement
 
-    CHECK{"Configuration<br/>possible ?"}
+Choisissez le nom de la finale et les catégories présentes :
 
-    STOP["Configuration à corriger"]
+`Secondaire 1`　`Secondaire 2`
 
-    SOLVER["Optimisation du planning"]
+Une seule catégorie ou les deux peuvent être organisées simultanément.
 
-    VALIDATE["Validation indépendante"]
+### 2. Ajouter les équipes
 
-    RESULT["Planning final<br/>par session et par salle"]
+Ajoutez les établissements et indiquez leur nombre d'équipes.
 
-    INPUT --> CHECK
-    CHECK -->|Non| STOP
-    CHECK -->|Oui| SOLVER
-    SOLVER --> VALIDATE
-    VALIDATE --> RESULT
+Les équipes sont créées automatiquement :
 
-    classDef input fill:#EAF7F8,stroke:#00A0AE,color:#173642,stroke-width:2px;
-    classDef check fill:#FFFFFF,stroke:#28647A,color:#173642,stroke-width:2px;
-    classDef engine fill:#28647A,stroke:#173642,color:#FFFFFF,stroke-width:2px;
-    classDef result fill:#173642,stroke:#00A0AE,color:#FFFFFF,stroke-width:2px;
+`Équipe A`　`Équipe B`　`Équipe C`　…
 
-    class INPUT input;
-    class CHECK,STOP check;
-    class SOLVER,VALIDATE engine;
-    class RESULT result;
-```
+Les noms des participant·es peuvent être ajoutés si nécessaire.
 
-Le résultat peut être consulté sous forme de **cartes par session et par salle**, avec une vue tableau complète et des contrôles techniques séparés.
+### 3. Indiquer les salles
+
+Renseignez simplement le nombre de salles disponibles.
+
+L'application vérifie immédiatement que la configuration peut fonctionner.
+
+### 4. Générer
+
+Le moteur optimise automatiquement :
+
+**sessions · rencontres · questions · rôles · côtés · salles**
+
+Le planning est ensuite présenté sous forme de cartes par session et par salle, avec une vue tableau complète.
+
+<br>
+
+<div align="center">
+
+<a href="https://debate-planner-jd-fr.streamlit.app/">
+  <img src="https://img.shields.io/badge/▶%20CRÉER%20UN%20PLANNING-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Créer un planning">
+</a>
+
+</div>
 
 ---
 
-## 🚪 Des salles organisées intelligemment
+## 🌐 En ligne ou en local ?
 
-Lorsque `Secondaire 1` et `Secondaire 2` participent à la même finale, le moteur cherche à rendre l'organisation **simple à comprendre sur place**.
+<table>
+<tr>
+<td width="50%" valign="top">
 
-```mermaid
-flowchart LR
-    R1["Salle 1<br/><b>Secondaire 1</b>"]
-    R2["Salle 2<br/><b>Secondaire 1</b>"]
-    R3["Salle frontière<br/><b>S1 → S2</b>"]
-    R4["Salle 4<br/><b>Secondaire 2</b>"]
-    R5["Salle 5<br/><b>Secondaire 2</b>"]
+### 🌐 Utiliser en ligne
 
-    R1 --- R2 --- R3 --- R4 --- R5
+**Le plus simple pour commencer.**
 
-    classDef s1 fill:#E2F7F8,stroke:#00A0AE,color:#173642,stroke-width:2px;
-    classDef boundary fill:#FFFFFF,stroke:#28647A,color:#173642,stroke-width:3px;
-    classDef s2 fill:#E9F0F3,stroke:#28647A,color:#173642,stroke-width:2px;
+- aucune installation ;
+- fonctionne directement dans le navigateur ;
+- même interface que la version locale ;
+- idéal pour générer rapidement un planning.
 
-    class R1,R2 s1;
-    class R3 boundary;
-    class R4,R5 s2;
-```
+<br>
 
-**L'idée :**
+<a href="https://debate-planner-jd-fr.streamlit.app/">
+  <img src="https://img.shields.io/badge/OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white">
+</a>
 
-`Secondaire 1` → premières salles  
-`Secondaire 2` → dernières salles
+</td>
 
-Si une salle doit accueillir les deux catégories, le planificateur privilégie une **salle frontière** :
+<td width="50%" valign="top">
 
-```text
-Secondaire 1  →  Secondaire 1  →  Secondaire 2  →  Secondaire 2
-```
+### 💾 Utiliser en local
 
-plutôt qu'une alternance permanente :
+**Le bon choix pour conserver vos événements.**
 
-```text
-Secondaire 1  →  Secondaire 2  →  Secondaire 1  →  Secondaire 2
-```
+- application installée sur votre ordinateur ;
+- données enregistrées localement ;
+- événements disponibles lors des prochaines utilisations ;
+- aucune base de données externe nécessaire.
 
-> [!NOTE]
-> Une salle peut parfaitement accueillir **Question 1 et Question 2**.
+<br>
+
+<a href="#-installation-locale">
+  <img src="https://img.shields.io/badge/INSTALLER%20EN%20LOCAL-28647A?style=for-the-badge&logo=python&logoColor=white">
+</a>
+
+</td>
+</tr>
+</table>
+
+> [!IMPORTANT]
+> La version en ligne ne doit pas être utilisée comme système de sauvegarde permanent.
 >
-> Les questions n'ont pas besoin d'être séparées physiquement : la logique d'organisation des salles concerne principalement les **catégories**.
+> Pour **enregistrer un événement et le retrouver plus tard**, utilisez la version locale.
 
----
-
-## 💾 Sauvegarde
-
-### Ai-je besoin d'installer l'application ?
-
-```mermaid
-flowchart TD
-    A{"Voulez-vous retrouver<br/>vos événements plus tard ?"}
-    B["Non"]
-    C["Oui"]
-    D["🌐 Utilisez la version en ligne"]
-    E["💻 Installez l'application en local"]
-    F["💾 Les événements sont conservés<br/>dans data/app.db"]
-
-    A --> B --> D
-    A --> C --> E --> F
-
-    classDef decision fill:#173642,stroke:#00A0AE,color:#FFFFFF,stroke-width:2px;
-    classDef online fill:#EAF7F8,stroke:#00A0AE,color:#173642,stroke-width:2px;
-    classDef local fill:#28647A,stroke:#173642,color:#FFFFFF,stroke-width:2px;
-
-    class A decision;
-    class B,D online;
-    class C,E,F local;
-```
-
-### Version en ligne
-
-La version hébergée est idéale pour **créer rapidement un planning**, sans installer quoi que ce soit.
-
-La base de données se trouve cependant sur l'instance Streamlit distante. Elle ne doit donc **pas être considérée comme un stockage permanent**.
-
-### Version locale
-
-En local, vos événements sont enregistrés sur votre ordinateur dans :
+En local, toutes les sauvegardes sont conservées dans :
 
 ```text
 data/app.db
 ```
 
 > [!TIP]
-> **C'est le fichier à conserver.**
+> **Conservez ce fichier.**
 >
-> Si vous mettez l'application à jour ou changez d'ordinateur, sauvegardez `data/app.db` puis replacez-le dans le nouveau dossier `data/`.
+> Il contient vos événements sauvegardés et peut être copié lors d'un changement d'ordinateur ou d'une mise à jour de l'application.
 
 ---
 
 ## 💻 Installation locale
 
 <details>
-<summary><strong>🟦 Je n'ai jamais utilisé GitHub ou Python — que dois-je faire ?</strong></summary>
+<summary><strong>Je n'ai jamais installé un projet Python</strong></summary>
 
 <br>
 
-### 1 · Télécharger l'application
+Pas besoin de connaître Git ou de programmer.
 
-En haut de cette page GitHub :
+### 1 · Télécharger le projet
+
+Sur cette page GitHub, cliquez sur :
 
 **Code → Download ZIP**
 
-Extrayez ensuite le fichier ZIP dans le dossier de votre choix.
+Puis extrayez le fichier ZIP sur votre ordinateur.
 
 ### 2 · Installer Python
 
 L'application nécessite **Python 3.11 ou plus récent**.
 
-Vous pouvez vérifier votre version avec :
+Pour vérifier votre version :
 
 ```bash
 python --version
@@ -365,9 +293,7 @@ python --version
 
 ### 3 · Ouvrir un terminal
 
-Ouvrez PowerShell ou un terminal **dans le dossier téléchargé**.
-
-Choisissez ensuite les instructions correspondant à votre système ci-dessous.
+Ouvrez **PowerShell** ou un terminal dans le dossier téléchargé, puis suivez les instructions correspondant à votre système ci-dessous.
 
 </details>
 
@@ -378,7 +304,7 @@ Choisissez ensuite les instructions correspondant à votre système ci-dessous.
 
 <br>
 
-### Première installation
+#### Première installation
 
 ```powershell
 python -m venv .venv
@@ -388,7 +314,7 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-### Les fois suivantes
+#### Utilisations suivantes
 
 ```powershell
 .venv\Scripts\Activate.ps1
@@ -402,7 +328,7 @@ python -m streamlit run app.py
 
 <br>
 
-### Première installation
+#### Première installation
 
 ```bash
 python -m venv .venv
@@ -412,7 +338,7 @@ pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-### Les fois suivantes
+#### Utilisations suivantes
 
 ```bash
 source .venv/bin/activate
@@ -423,148 +349,147 @@ python -m streamlit run app.py
 
 <br>
 
-Une fois lancée, l'application est disponible à :
+L'application s'ouvre normalement automatiquement.
 
-**http://localhost:8501**
+Sinon :
+
+```text
+http://localhost:8501
+```
 
 ---
 
 ## ❔ FAQ
 
 <details>
-<summary><strong>🌐 Dois-je installer quelque chose pour utiliser le planificateur ?</strong></summary>
+<summary><strong>Dois-je installer quelque chose pour utiliser l'application ?</strong></summary>
 
 <br>
 
 **Non.**
 
-Vous pouvez utiliser directement :
+La version en ligne est directement disponible ici :
 
-**https://debate-planner-jd-fr.streamlit.app/**
+https://debate-planner-jd-fr.streamlit.app/
 
-L'installation locale est surtout utile si vous souhaitez **conserver durablement vos événements**.
+L'installation locale est surtout nécessaire si vous souhaitez **conserver durablement vos événements**.
 
 </details>
 
 <details>
-<summary><strong>💾 Puis-je sauvegarder mes événements dans la version en ligne ?</strong></summary>
+<summary><strong>Puis-je sauvegarder mes événements dans la version en ligne ?</strong></summary>
 
 <br>
 
-L'application peut utiliser sa base SQLite lorsqu'elle est hébergée, mais cette base se trouve sur l'instance distante.
+La version hébergée utilise également la base de données de l'application, mais son stockage distant ne doit pas être considéré comme permanent.
 
-Elle ne doit donc pas être considérée comme une sauvegarde permanente.
-
-Pour une conservation fiable, utilisez l'application **en local**.
+Pour une sauvegarde fiable, utilisez la version **locale**.
 
 </details>
 
 <details>
-<summary><strong>👥 Dois-je renseigner les noms des participant·es ?</strong></summary>
+<summary><strong>Dois-je renseigner les noms des participant·es ?</strong></summary>
 
 <br>
 
 Non.
 
-Vous pouvez simplement ajouter les établissements et le nombre d'équipes.
+Vous pouvez simplement renseigner les établissements et le nombre d'équipes.
 
-La saisie des noms est utile lorsque vous souhaitez également gérer précisément la rotation des rôles individuels.
+Les noms sont utiles si vous souhaitez gérer précisément les rôles individuels des deux participant·es.
 
 </details>
 
 <details>
-<summary><strong>❌ Que se passe-t-il si ma configuration est impossible ?</strong></summary>
+<summary><strong>Que se passe-t-il si ma configuration est impossible ?</strong></summary>
 
 <br>
 
-L'application vérifie d'abord les conditions structurelles.
+L'application effectue des contrôles avant de lancer l'optimisation.
 
-Si le nombre d'équipes ou de salles ne permet pas de créer un planning valide, le problème est signalé **avant le lancement de l'optimisation**.
+Si le nombre d'équipes ou de salles ne permet pas de créer un planning valide, vous êtes averti immédiatement.
 
 </details>
 
 <details>
-<summary><strong>❓ Une même salle peut-elle accueillir Question 1 et Question 2 ?</strong></summary>
+<summary><strong>Une salle peut-elle accueillir Question 1 et Question 2 ?</strong></summary>
 
 <br>
 
 Oui.
 
-C'est un fonctionnement normal et cela n'est **ni une erreur ni une préférence négative**.
+C'est un fonctionnement parfaitement normal et cela n'est pas considéré comme un problème par le moteur d'optimisation.
 
 </details>
 
 <details>
-<summary><strong>🚪 Pourquoi une salle accueille-t-elle parfois les deux catégories ?</strong></summary>
+<summary><strong>J'ai trouvé un bug ou quelque chose ne fonctionne pas.</strong></summary>
 
 <br>
 
-Cela peut être nécessaire lorsque le nombre de salles disponibles ne permet pas de séparer entièrement `Secondaire 1` et `Secondaire 2`.
+Vous pouvez me contacter à :
 
-Dans ce cas, le moteur cherche à créer une **salle frontière** qui passe une seule fois de `Secondaire 1` à `Secondaire 2`.
+**[yann.ducrest@gmail.com](mailto:yann.ducrest@gmail.com)**
 
-</details>
-
-<details>
-<summary><strong>🐛 J'ai trouvé un problème ou quelque chose ne fonctionne pas</strong></summary>
-
-<br>
-
-Merci de le signaler en indiquant si possible :
+Si possible, indiquez :
 
 - ce que vous essayiez de faire ;
 - le nombre d'équipes et de salles ;
-- le message d'erreur affiché ;
+- le message d'erreur ;
 - une capture d'écran si elle peut aider.
-
-📧 **[yann.ducrest@gmail.com](mailto:yann.ducrest@gmail.com)**
 
 </details>
 
 ---
 
-## ⚙️ Pour les personnes qui veulent aller plus loin
+## ⚙️ Sous le capot
 
-> Cette partie n'est **pas nécessaire pour utiliser l'application**.
+> Cette section n'est **pas nécessaire pour utiliser l'application**.
 
 <details>
-<summary><strong>🧠 Comment le planning est-il optimisé ?</strong></summary>
+<summary><strong>Technologies utilisées</strong></summary>
 
 <br>
 
-Le moteur utilise une optimisation **MILP** (*Mixed-Integer Linear Programming*) avec :
-
-- `scipy.optimize.milp`
-- le solveur **HiGHS**
-
-### Contraintes obligatoires
-
-Le planning doit notamment respecter :
-
-- exactement deux débats par équipe ;
-- exactement une Question 1 et une Question 2 ;
-- aucune double participation pendant une session ;
-- la rotation des rôles individuels ;
-- le nombre de salles disponibles.
-
-### Préférences optimisées
-
-Parmi les plannings valides, le solveur cherche notamment à améliorer :
-
-- le nombre de sessions ;
-- la diversité des rencontres ;
-- l'équilibre des côtés ;
-- la chronologie des questions ;
-- les changements de salle ;
-- la séparation des catégories ;
-- la stabilité des salles.
-
-Une validation indépendante contrôle ensuite le planning obtenu.
+| Technologie | Rôle |
+|---|---|
+| **Streamlit** | interface utilisateur |
+| **Python** | logique de l'application |
+| **SciPy** | formulation MILP |
+| **HiGHS** | résolution du problème d'optimisation |
+| **SQLite** | sauvegarde locale |
 
 </details>
 
 <details>
-<summary><strong>🧪 Exécuter les tests</strong></summary>
+<summary><strong>Comment fonctionne l'optimisation ?</strong></summary>
+
+<br>
+
+Le planning est formulé comme un problème de **programmation linéaire en nombres entiers mixtes — MILP**.
+
+Le moteur utilise :
+
+```python
+scipy.optimize.milp
+```
+
+avec le solveur **HiGHS**.
+
+Les contraintes obligatoires garantissent notamment :
+
+- exactement deux débats par équipe ;
+- une Question 1 et une Question 2 ;
+- aucune double participation pendant une même session ;
+- la rotation des rôles individuels ;
+- le respect du nombre de salles disponibles.
+
+Parmi les solutions valides, le solveur cherche ensuite à améliorer la qualité générale du planning : nombre de sessions, diversité des rencontres, côtés, salles et chronologie.
+
+</details>
+
+<details>
+<summary><strong>Exécuter les tests</strong></summary>
 
 <br>
 
@@ -572,31 +497,21 @@ Une validation indépendante contrôle ensuite le planning obtenu.
 python -m pytest -q
 ```
 
-Les tests couvrent notamment différentes tailles de finales, les configurations avec peu de salles, les deux catégories simultanément, les établissements avec plusieurs équipes et la logique des salles frontières.
+Les tests couvrent notamment différentes tailles de finales, les deux catégories, les configurations avec peu de salles, plusieurs équipes d'un même établissement et les principales contraintes du moteur.
 
 </details>
 
-<details>
-<summary><strong>🧩 Technologies utilisées</strong></summary>
+---
 
-<br>
+## 📚 Documentation
 
-| Technologie | Utilisation |
-|:---|:---|
-| **Streamlit** | Interface utilisateur |
-| **Python** | Logique de l'application |
-| **SciPy** | Modèle d'optimisation MILP |
-| **HiGHS** | Résolution du problème d'optimisation |
-| **SQLite** | Sauvegarde locale |
+La documentation technique détaillée est volontairement séparée du README afin de garder cette page simple et accessible.
 
-</details>
+**[`PROJECT_SOURCE.md`](PROJECT_SOURCE.md)**  
+Structure et fonctionnement interne du projet.
 
-### Documentation du projet
-
-Pour entrer dans les détails du code :
-
-**[`PROJECT_SOURCE.md`](PROJECT_SOURCE.md)** — structure et fonctionnement du projet  
-**[`VERIFICATION.md`](VERIFICATION.md)** — vérification et validation
+**[`VERIFICATION.md`](VERIFICATION.md)**  
+Informations de vérification et de validation.
 
 ---
 
@@ -606,12 +521,12 @@ Pour entrer dans les détails du code :
 <tr>
 <td width="65%" valign="middle">
 
-### Une question ? Un bug ? Une suggestion ?
+### Une question ? Une suggestion ? Un problème ?
 
-Si quelque chose ne fonctionne pas ou si vous avez une proposition d'amélioration, n'hésitez pas à me contacter.
+Vous pouvez me contacter directement pour signaler un bug, poser une question ou proposer une amélioration.
 
 **Yann Ducrest**  
-Auteur et mainteneur du planificateur
+Auteur et mainteneur
 
 </td>
 
@@ -635,7 +550,7 @@ Auteur et mainteneur du planificateur
 
 <div align="center">
 
-<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="85">
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="80">
 
 <br>
 
