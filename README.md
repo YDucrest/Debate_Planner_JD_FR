@@ -1,48 +1,26 @@
-<p align="center">
-  <img
-    src="https://capsule-render.vercel.app/api?type=waving&color=0:173642,100:00A0AE&height=105&section=header"
-    width="100%"
-    alt=""
-  />
-</p>
-
 <div align="center">
 
-<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" height="86">
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="92">
 
 # Planificateur de débats
 
-**La jeunesse débat**
+### La jeunesse débat
 
-Préparez une finale régionale et générez automatiquement un planning
-**clair, équilibré et prêt à l'emploi**.
+**Préparez une finale régionale et générez automatiquement un planning clair, équilibré et prêt à l'emploi.**
 
 <br>
 
 <a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img
-    src="https://img.shields.io/badge/▶%20OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white"
-    alt="Ouvrir l'application"
-  >
+  <img src="https://img.shields.io/badge/OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Ouvrir l'application">
 </a>
 &nbsp;
 <a href="#installation-locale">
-  <img
-    src="https://img.shields.io/badge/↓%20INSTALLER%20EN%20LOCAL-28647A?style=for-the-badge&logo=python&logoColor=white"
-    alt="Installer en local"
-  >
+  <img src="https://img.shields.io/badge/INSTALLER%20EN%20LOCAL-28647A?style=for-the-badge&logo=python&logoColor=white" alt="Installer en local">
 </a>
 
 <br><br>
 
-<img src="https://img.shields.io/badge/Python-3.11+-28647A?style=flat-square&logo=python&logoColor=white" alt="Python 3.11+">
-<img src="https://img.shields.io/badge/Streamlit-App-00A0AE?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
-<img src="https://img.shields.io/badge/Optimisation-MILP-173642?style=flat-square" alt="MILP">
-<img src="https://img.shields.io/badge/Sauvegarde-SQLite-28647A?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
-
-<br><br>
-
-<a href="#comment-ça-marche">Comment ça marche ?</a>
+<a href="#apercu">Aperçu</a>
 &nbsp;·&nbsp;
 <a href="#utilisation">Utilisation</a>
 &nbsp;·&nbsp;
@@ -50,143 +28,109 @@ Préparez une finale régionale et générez automatiquement un planning
 &nbsp;·&nbsp;
 <a href="#faq">FAQ</a>
 &nbsp;·&nbsp;
-<a href="#aide--contact">Contact</a>
+<a href="#contact">Contact</a>
 
-</div>
+<br><br>
 
----
-
-<div align="center">
-
-<img
-  src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=18&pause=1200&color=00A0AE&center=true&vCenter=true&width=720&height=36&lines=%C3%89v%C3%A9nement+%E2%86%92+%C3%89quipes+%E2%86%92+Salles+%E2%86%92+Planning"
-  alt="Événement → Équipes → Salles → Planning"
->
-
-</div>
-
-Le **Planificateur de débats** automatise la préparation des finales régionales
-de **La jeunesse débat**.
-
-Vous renseignez les équipes et les salles disponibles. L'application organise
-les rencontres, les questions, les rôles et les sessions, puis vérifie le
-planning avant de l'afficher.
-
----
-
-<a id="comment-ça-marche"></a>
-
-## Comment ça marche ?
-
-<p align="center">
-  <kbd>① Événement</kbd>
-  &nbsp;→&nbsp;
-  <kbd>② Équipes</kbd>
-  &nbsp;→&nbsp;
-  <kbd>③ Salles</kbd>
-  &nbsp;→&nbsp;
-  <kbd>④ Planning</kbd>
-</p>
-
-**① Événement** — choisissez le nom de la finale et les catégories présentes.
-
-**② Équipes** — ajoutez les établissements, les équipes et, si nécessaire,
-les noms des participant·es.
-
-**③ Salles** — indiquez le nombre de salles disponibles. La configuration est
-contrôlée immédiatement.
-
-**④ Planning** — lancez l'optimisation. Le planning est généré, validé puis
-présenté par session et par salle.
-
-<br>
-
-<div align="center">
-
-<img src="https://img.shields.io/badge/2%20débats-par%20équipe-00A0AE?style=for-the-badge" alt="2 débats par équipe">
-<img src="https://img.shields.io/badge/Q1%20%2B%20Q2-une%20fois%20chacune-28647A?style=for-the-badge" alt="Question 1 et Question 2">
-<img src="https://img.shields.io/badge/Rôles-1%20↔%202-00A0AE?style=for-the-badge" alt="Rotation des rôles">
-
-<br>
-
-<img src="https://img.shields.io/badge/Aucun%20conflit-de%20session-28647A?style=for-the-badge" alt="Aucun conflit de session">
-<img src="https://img.shields.io/badge/Planning-validé%20automatiquement-173642?style=for-the-badge" alt="Planning validé automatiquement">
+<sub>Python 3.11+ · Streamlit · SciPy / HiGHS · SQLite</sub>
 
 </div>
 
 <br>
-
-<div align="center">
 
 <a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img
-    src="https://img.shields.io/badge/▶%20CRÉER%20UN%20PLANNING-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white"
-    alt="Créer un planning"
-  >
+  <img src="assets/readme/app-preview.png" alt="Aperçu du Planificateur de débats" width="100%">
 </a>
 
+<p align="center">
+  <sub>Cliquez sur l'aperçu pour ouvrir l'application.</sub>
+</p>
+
+---
+
+<a id="apercu"></a>
+
+## Aperçu
+
+Le **Planificateur de débats** automatise la préparation des finales régionales de **La jeunesse débat**.
+
+Vous renseignez les équipes et les salles disponibles.  
+L'application organise les **rencontres, questions, rôles, sessions et salles**, puis vérifie le planning avant de l'afficher.
+
+<p align="center">
+  <strong>01 · Événement</strong>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <strong>02 · Équipes</strong>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <strong>03 · Salles</strong>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <strong>04 · Planning</strong>
+</p>
+
+### Ce que le planning garantit
+
+- ✓ exactement **2 débats par équipe** ;
+- ✓ exactement **1 × Question 1** et **1 × Question 2** ;
+- ✓ aucune équipe dans deux débats pendant la même session ;
+- ✓ rotation individuelle des rôles **1 ↔ 2** ;
+- ✓ respect du nombre de salles disponibles ;
+- ✓ validation indépendante du planning après optimisation.
+
+Le moteur cherche ensuite à améliorer la qualité du planning : diversité des rencontres, équilibre des côtés, ordre des questions, utilisation des salles et nombre de sessions.
+
+<br>
+
+<div align="center">
+  <a href="https://debate-planner-jd-fr.streamlit.app/">
+    <img src="https://img.shields.io/badge/CRÉER%20UN%20PLANNING-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Créer un planning">
+  </a>
 </div>
 
 ---
 
 <a id="utilisation"></a>
 
-## Choisir votre mode d'utilisation
+## Utilisation
 
 <details open>
-<summary><strong>🌐 Utiliser l'application en ligne — le plus simple</strong></summary>
+<summary><strong>🌐 Utiliser le planificateur en ligne</strong></summary>
 
 <br>
 
-Aucune installation n'est nécessaire.
+C'est le moyen le plus simple de commencer.
 
-Ouvrez simplement le planificateur dans votre navigateur, ajoutez vos équipes
-et générez le planning.
+Aucune installation : ouvrez l'application dans votre navigateur, ajoutez les équipes et générez le planning.
 
 <br>
 
 <a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img
-    src="https://img.shields.io/badge/OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white"
-    alt="Ouvrir l'application"
-  >
+  <img src="https://img.shields.io/badge/OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Ouvrir l'application">
 </a>
 
 <br><br>
 
 > [!IMPORTANT]
-> La version en ligne est idéale pour utiliser rapidement le planificateur,
-> mais elle ne doit pas être considérée comme un système de sauvegarde
-> permanente.
+> La version en ligne est idéale pour générer un planning, mais elle ne doit pas être utilisée comme système de **sauvegarde permanente**.
 
 </details>
 
 <details>
-<summary><strong>💾 Utiliser l'application en local — pour conserver vos événements</strong></summary>
+<summary><strong>💾 Conserver mes événements</strong></summary>
 
 <br>
 
-La version locale utilise exactement la même application, mais les événements
-sont enregistrés sur votre propre ordinateur.
+Pour enregistrer vos événements et les retrouver plus tard, utilisez l'application **en local sur votre ordinateur**.
 
-Les sauvegardes sont stockées dans :
+Les données sont enregistrées dans :
 
 ```text
 data/app.db
 ```
 
 > [!TIP]
-> Conservez ce fichier si vous mettez l'application à jour ou changez
-> d'ordinateur : il contient vos événements sauvegardés.
+> `app.db` est le fichier à conserver lors d'une mise à jour de l'application ou d'un changement d'ordinateur.
 
-<br>
-
-<a href="#installation-locale">
-  <img
-    src="https://img.shields.io/badge/VOIR%20L'INSTALLATION-28647A?style=for-the-badge&logo=python&logoColor=white"
-    alt="Voir l'installation locale"
-  >
-</a>
+Les instructions se trouvent dans la section [Installation locale](#installation-locale).
 
 </details>
 
@@ -197,19 +141,15 @@ data/app.db
 ## Installation locale
 
 <details>
-<summary><strong>👋 Première fois avec GitHub ou Python ? Commencez ici</strong></summary>
+<summary><strong>Je n'ai jamais utilisé GitHub ou Python</strong></summary>
 
 <br>
 
-### 1. Télécharger l'application
+**1. Télécharger le projet**
 
-Sur cette page GitHub, cliquez sur :
+Sur cette page GitHub, cliquez sur **Code → Download ZIP**, puis décompressez le dossier.
 
-**Code → Download ZIP**
-
-Puis décompressez le dossier sur votre ordinateur.
-
-### 2. Vérifier Python
+**2. Vérifier Python**
 
 Python **3.11 ou plus récent** est recommandé.
 
@@ -217,9 +157,9 @@ Python **3.11 ou plus récent** est recommandé.
 python --version
 ```
 
-### 3. Installer et lancer
+**3. Choisir votre système**
 
-Choisissez votre système ci-dessous et copiez les commandes indiquées.
+Utilisez ensuite l'une des procédures ci-dessous.
 
 </details>
 
@@ -273,7 +213,7 @@ python -m streamlit run app.py
 
 L'application s'ouvre normalement automatiquement dans le navigateur.
 
-Sinon, ouvrez :
+Sinon :
 
 ```text
 http://localhost:8501
@@ -286,14 +226,15 @@ http://localhost:8501
 ## FAQ
 
 <details>
-<summary><strong>Dois-je installer quelque chose pour utiliser le planificateur ?</strong></summary>
+<summary><strong>Dois-je installer quelque chose pour utiliser l'application ?</strong></summary>
 
 <br>
 
-Non. Vous pouvez utiliser directement la version en ligne.
+Non. La version en ligne fonctionne directement dans le navigateur :
 
-L'installation locale est surtout utile si vous souhaitez conserver vos
-événements de manière durable.
+**https://debate-planner-jd-fr.streamlit.app/**
+
+L'installation locale est surtout utile pour conserver durablement vos événements.
 
 </details>
 
@@ -302,11 +243,9 @@ L'installation locale est surtout utile si vous souhaitez conserver vos
 
 <br>
 
-La version hébergée ne doit pas être considérée comme un système de sauvegarde
-permanent.
+La version hébergée ne doit pas être considérée comme un stockage permanent.
 
-Pour conserver vos événements de manière fiable, utilisez l'application en
-local.
+Pour conserver vos événements de manière fiable, utilisez l'application en local.
 
 </details>
 
@@ -317,8 +256,7 @@ local.
 
 Non.
 
-Les noms sont optionnels. Vous pouvez préparer un événement uniquement avec les
-établissements et le nombre d'équipes.
+Les noms sont optionnels. Vous pouvez préparer un événement uniquement avec les établissements et le nombre d'équipes.
 
 </details>
 
@@ -327,9 +265,9 @@ Les noms sont optionnels. Vous pouvez préparer un événement uniquement avec l
 
 <br>
 
-L'application effectue des contrôles avant de lancer l'optimisation.
+L'application vérifie les contraintes structurelles avant de lancer l'optimisation.
 
-Une configuration structurellement impossible est donc signalée immédiatement.
+Une configuration impossible est donc signalée immédiatement.
 
 </details>
 
@@ -338,17 +276,18 @@ Une configuration structurellement impossible est donc signalée immédiatement.
 
 <br>
 
-Oui. C'est un fonctionnement normal du planificateur.
+Oui.
+
+C'est un fonctionnement normal et cela n'est pas considéré comme un problème par le planificateur.
 
 </details>
 
 <details>
-<summary><strong>J'ai trouvé un bug ou quelque chose ne fonctionne pas.</strong></summary>
+<summary><strong>J'ai trouvé un problème ou une erreur.</strong></summary>
 
 <br>
 
-Vous pouvez me contacter à
-**[yann.ducrest@gmail.com](mailto:yann.ducrest@gmail.com)**.
+Vous pouvez me contacter à **[yann.ducrest@gmail.com](mailto:yann.ducrest@gmail.com)**.
 
 Pour faciliter le diagnostic, indiquez si possible :
 
@@ -364,25 +303,21 @@ Pour faciliter le diagnostic, indiquez si possible :
 ## Pour aller plus loin
 
 <details>
-<summary><strong>⚙️ Sous le capot</strong></summary>
+<summary><strong>⚙️ Fonctionnement du moteur</strong></summary>
 
 <br>
 
-Le moteur utilise une optimisation **MILP** (*Mixed-Integer Linear
-Programming*) via `scipy.optimize.milp` et le solveur **HiGHS**.
+Le planning est formulé comme un problème d'optimisation **MILP** (*Mixed-Integer Linear Programming*).
 
-Il garantit notamment :
+Le moteur utilise :
 
-- exactement deux débats par équipe ;
-- exactement une `Question 1` et une `Question 2` par équipe ;
-- aucune double participation dans une même session ;
-- la rotation des rôles individuels `1 ↔ 2` ;
-- le respect du nombre de salles disponibles.
+- `scipy.optimize.milp`
+- le solveur **HiGHS**
 
-Parmi les solutions valides, le moteur optimise ensuite la qualité générale du
-planning : nombre de sessions, rencontres, côtés et salles.
+Les contraintes obligatoires assurent la validité du planning.  
+Le solveur optimise ensuite la qualité de la solution parmi les plannings valides.
 
-Une validation indépendante contrôle le résultat après la résolution.
+Une validation indépendante contrôle le résultat après résolution.
 
 </details>
 
@@ -395,8 +330,7 @@ Une validation indépendante contrôle le résultat après la résolution.
 python -m pytest -q
 ```
 
-La suite de tests vérifie les principales contraintes du moteur sur différentes
-configurations d'événements.
+La suite de tests vérifie les principales contraintes du moteur sur différentes configurations de finales.
 
 </details>
 
@@ -412,28 +346,22 @@ configurations d'événements.
 
 ---
 
-<a id="aide--contact"></a>
+<a id="contact"></a>
 
 ## Aide & contact
 
 <div align="center">
 
-Une question, une suggestion ou un problème ?
+**Une question, une suggestion ou un problème ?**
 
 <br><br>
 
 <a href="mailto:yann.ducrest@gmail.com">
-  <img
-    src="https://img.shields.io/badge/CONTACTER%20YANN-00A0AE?style=for-the-badge&logo=gmail&logoColor=white"
-    alt="Contacter Yann"
-  >
+  <img src="https://img.shields.io/badge/CONTACTER%20YANN-00A0AE?style=for-the-badge&logo=gmail&logoColor=white" alt="Contacter Yann">
 </a>
 &nbsp;
 <a href="https://github.com/YDucrest">
-  <img
-    src="https://img.shields.io/badge/GITHUB-YDucrest-173642?style=for-the-badge&logo=github&logoColor=white"
-    alt="GitHub Yann Ducrest"
-  >
+  <img src="https://img.shields.io/badge/GITHUB-YDucrest-173642?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Yann Ducrest">
 </a>
 
 <br><br>
@@ -447,7 +375,7 @@ Auteur & mainteneur
 
 <div align="center">
 
-<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" height="66">
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="64">
 
 ### Un planning plus simple à préparer.  
 ### Une finale plus simple à organiser.
@@ -455,22 +383,7 @@ Auteur & mainteneur
 <br>
 
 <a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img
-    src="https://img.shields.io/badge/▶%20OUVRIR%20LE%20PLANIFICATEUR-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white"
-    alt="Ouvrir le planificateur"
-  >
+  <img src="https://img.shields.io/badge/OUVRIR%20LE%20PLANIFICATEUR-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Ouvrir le planificateur">
 </a>
 
-<br><br>
-
-<sub>Développé par <strong>Yann Ducrest</strong></sub>
-
 </div>
-
-<p align="center">
-  <img
-    src="https://capsule-render.vercel.app/api?type=waving&color=0:173642,100:00A0AE&height=105&section=footer"
-    width="100%"
-    alt=""
-  />
-</p>
