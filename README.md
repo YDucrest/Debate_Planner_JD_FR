@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="92">
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="88">
 
 # Planificateur de débats
 
@@ -20,11 +20,9 @@
 
 <br><br>
 
-<a href="#apercu">Aperçu</a>
+<a href="#commencer">Commencer</a>
 &nbsp;·&nbsp;
-<a href="#utilisation">Utilisation</a>
-&nbsp;·&nbsp;
-<a href="#installation-locale">Installation</a>
+<a href="#fonctionnement">Fonctionnement</a>
 &nbsp;·&nbsp;
 <a href="#faq">FAQ</a>
 &nbsp;·&nbsp;
@@ -43,94 +41,105 @@
 </a>
 
 <p align="center">
-  <sub>Cliquez sur l'aperçu pour ouvrir l'application.</sub>
+  <sub>↑ Cliquez sur l'aperçu pour ouvrir le planificateur</sub>
 </p>
 
 ---
 
-<a id="apercu"></a>
+<a id="commencer"></a>
 
-## Aperçu
+## Commencer
 
-Le **Planificateur de débats** automatise la préparation des finales régionales de **La jeunesse débat**.
+### 🌐 Je veux simplement créer un planning
 
-Vous renseignez les équipes et les salles disponibles.  
-L'application organise les **rencontres, questions, rôles, sessions et salles**, puis vérifie le planning avant de l'afficher.
-
-<p align="center">
-  <strong>01 · Événement</strong>
-  &nbsp;&nbsp;→&nbsp;&nbsp;
-  <strong>02 · Équipes</strong>
-  &nbsp;&nbsp;→&nbsp;&nbsp;
-  <strong>03 · Salles</strong>
-  &nbsp;&nbsp;→&nbsp;&nbsp;
-  <strong>04 · Planning</strong>
-</p>
-
-### Ce que le planning garantit
-
-- ✓ exactement **2 débats par équipe** ;
-- ✓ exactement **1 × Question 1** et **1 × Question 2** ;
-- ✓ aucune équipe dans deux débats pendant la même session ;
-- ✓ rotation individuelle des rôles **1 ↔ 2** ;
-- ✓ respect du nombre de salles disponibles ;
-- ✓ validation indépendante du planning après optimisation.
-
-Le moteur cherche ensuite à améliorer la qualité du planning : diversité des rencontres, équilibre des côtés, ordre des questions, utilisation des salles et nombre de sessions.
-
-<br>
-
-<div align="center">
-  <a href="https://debate-planner-jd-fr.streamlit.app/">
-    <img src="https://img.shields.io/badge/CRÉER%20UN%20PLANNING-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Créer un planning">
-  </a>
-</div>
-
----
-
-<a id="utilisation"></a>
-
-## Utilisation
-
-<details open>
-<summary><strong>🌐 Utiliser le planificateur en ligne</strong></summary>
-
-<br>
-
-C'est le moyen le plus simple de commencer.
-
-Aucune installation : ouvrez l'application dans votre navigateur, ajoutez les équipes et générez le planning.
-
-<br>
+**Aucune installation.** Ouvrez l'application, ajoutez vos équipes et vos salles, puis générez le planning.
 
 <a href="https://debate-planner-jd-fr.streamlit.app/">
-  <img src="https://img.shields.io/badge/OUVRIR%20L'APPLICATION-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Ouvrir l'application">
+  <img src="https://img.shields.io/badge/OUVRIR%20MAINTENANT-00A0AE?style=for-the-badge&logo=streamlit&logoColor=white" alt="Ouvrir maintenant">
 </a>
 
 <br><br>
 
+### 💾 Je veux enregistrer mes événements
+
+Installez l'application sur votre ordinateur. Les événements sont alors conservés localement dans `data/app.db`.
+
+<a href="#installation-locale">
+  <img src="https://img.shields.io/badge/VOIR%20L'INSTALLATION-28647A?style=for-the-badge&logo=python&logoColor=white" alt="Voir l'installation">
+</a>
+
 > [!IMPORTANT]
-> La version en ligne est idéale pour générer un planning, mais elle ne doit pas être utilisée comme système de **sauvegarde permanente**.
+> La version en ligne est idéale pour créer un planning, mais elle ne doit pas être considérée comme un système de **sauvegarde permanente**.
+
+---
+
+<a id="fonctionnement"></a>
+
+## En 4 étapes
+
+<p align="center">
+  <kbd>① Événement</kbd>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <kbd>② Équipes</kbd>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <kbd>③ Salles</kbd>
+  &nbsp;&nbsp;→&nbsp;&nbsp;
+  <kbd>④ Planning</kbd>
+</p>
+
+**① Événement** — nom de la finale et catégories.  
+**② Équipes** — établissements, équipes et participant·es si nécessaire.  
+**③ Salles** — nombre de salles disponibles et contrôle immédiat de la configuration.  
+**④ Planning** — optimisation, validation et affichage du résultat.
+
+<br>
+
+<div align="center">
+
+<img src="https://img.shields.io/badge/2%20DÉBATS-PAR%20ÉQUIPE-00A0AE?style=flat-square" alt="2 débats par équipe">
+<img src="https://img.shields.io/badge/1×Q1%20%2B%201×Q2-GARANTI-28647A?style=flat-square" alt="Question 1 et Question 2">
+<img src="https://img.shields.io/badge/RÔLES-1%20↔%202-00A0AE?style=flat-square" alt="Rotation des rôles">
+<img src="https://img.shields.io/badge/AUCUN%20CONFLIT-DE%20SESSION-28647A?style=flat-square" alt="Aucun conflit">
+<img src="https://img.shields.io/badge/PLANNING-VALIDÉ-173642?style=flat-square" alt="Planning validé">
+
+</div>
+
+<br>
+
+Le moteur cherche ensuite le planning le plus pratique possible : **moins de sessions, rencontres diversifiées, côtés équilibrés et salles organisées de manière cohérente**.
+
+---
+
+## Utilisation & sauvegarde
+
+<details open>
+<summary><strong>🌐 Utilisation en ligne</strong></summary>
+
+<br>
+
+La version en ligne fonctionne directement dans le navigateur :
+
+**https://debate-planner-jd-fr.streamlit.app/**
+
+Elle permet de préparer et générer un planning sans rien installer.
 
 </details>
 
 <details>
-<summary><strong>💾 Conserver mes événements</strong></summary>
+<summary><strong>💾 Sauvegarde locale</strong></summary>
 
 <br>
 
-Pour enregistrer vos événements et les retrouver plus tard, utilisez l'application **en local sur votre ordinateur**.
+Pour conserver durablement vos événements, utilisez l'application en local.
 
-Les données sont enregistrées dans :
+Les données sont stockées dans :
 
 ```text
 data/app.db
 ```
 
 > [!TIP]
-> `app.db` est le fichier à conserver lors d'une mise à jour de l'application ou d'un changement d'ordinateur.
-
-Les instructions se trouvent dans la section [Installation locale](#installation-locale).
+> `app.db` est le fichier à conserver lors d'une mise à jour ou d'un changement d'ordinateur.
 
 </details>
 
@@ -141,13 +150,13 @@ Les instructions se trouvent dans la section [Installation locale](#installation
 ## Installation locale
 
 <details>
-<summary><strong>Je n'ai jamais utilisé GitHub ou Python</strong></summary>
+<summary><strong>👋 Je n'ai jamais utilisé GitHub ou Python</strong></summary>
 
 <br>
 
 **1. Télécharger le projet**
 
-Sur cette page GitHub, cliquez sur **Code → Download ZIP**, puis décompressez le dossier.
+Cliquez sur **Code → Download ZIP**, puis décompressez le dossier.
 
 **2. Vérifier Python**
 
@@ -211,13 +220,20 @@ python -m streamlit run app.py
 
 </details>
 
-L'application s'ouvre normalement automatiquement dans le navigateur.
+<details>
+<summary><strong>🌐 Ouvrir l'application locale</strong></summary>
+
+<br>
+
+Streamlit ouvre normalement l'application automatiquement.
 
 Sinon :
 
 ```text
 http://localhost:8501
 ```
+
+</details>
 
 ---
 
@@ -230,11 +246,9 @@ http://localhost:8501
 
 <br>
 
-Non. La version en ligne fonctionne directement dans le navigateur :
+Non. La version en ligne fonctionne directement dans votre navigateur.
 
-**https://debate-planner-jd-fr.streamlit.app/**
-
-L'installation locale est surtout utile pour conserver durablement vos événements.
+L'installation locale est surtout utile si vous souhaitez conserver vos événements de manière durable.
 
 </details>
 
@@ -254,9 +268,9 @@ Pour conserver vos événements de manière fiable, utilisez l'application en lo
 
 <br>
 
-Non.
+Non. Les noms sont optionnels.
 
-Les noms sont optionnels. Vous pouvez préparer un événement uniquement avec les établissements et le nombre d'équipes.
+Vous pouvez préparer un événement uniquement avec les établissements et le nombre d'équipes.
 
 </details>
 
@@ -276,48 +290,37 @@ Une configuration impossible est donc signalée immédiatement.
 
 <br>
 
-Oui.
-
-C'est un fonctionnement normal et cela n'est pas considéré comme un problème par le planificateur.
+Oui. C'est un fonctionnement normal du planificateur.
 
 </details>
 
 <details>
-<summary><strong>J'ai trouvé un problème ou une erreur.</strong></summary>
+<summary><strong>J'ai trouvé un bug ou quelque chose ne fonctionne pas.</strong></summary>
 
 <br>
 
 Vous pouvez me contacter à **[yann.ducrest@gmail.com](mailto:yann.ducrest@gmail.com)**.
 
-Pour faciliter le diagnostic, indiquez si possible :
-
-- ce que vous essayiez de faire ;
-- le nombre d'équipes et de salles ;
-- le message d'erreur affiché ;
-- une capture d'écran.
+Pour faciliter le diagnostic, indiquez si possible le nombre d'équipes, le nombre de salles, le message affiché et une capture d'écran.
 
 </details>
 
 ---
 
-## Pour aller plus loin
+## Détails techniques
 
 <details>
-<summary><strong>⚙️ Fonctionnement du moteur</strong></summary>
+<summary><strong>⚙️ Moteur d'optimisation</strong></summary>
 
 <br>
 
-Le planning est formulé comme un problème d'optimisation **MILP** (*Mixed-Integer Linear Programming*).
+Le planning est formulé comme un problème **MILP** (*Mixed-Integer Linear Programming*).
 
-Le moteur utilise :
+Le moteur utilise `scipy.optimize.milp` avec le solveur **HiGHS**.
 
-- `scipy.optimize.milp`
-- le solveur **HiGHS**
+Les contraintes garantissent la validité du planning ; l'optimisation cherche ensuite à améliorer le nombre de sessions, les rencontres, les côtés et l'utilisation des salles.
 
-Les contraintes obligatoires assurent la validité du planning.  
-Le solveur optimise ensuite la qualité de la solution parmi les plannings valides.
-
-Une validation indépendante contrôle le résultat après résolution.
+Une validation indépendante contrôle la solution après résolution.
 
 </details>
 
@@ -335,7 +338,7 @@ La suite de tests vérifie les principales contraintes du moteur sur différente
 </details>
 
 <details>
-<summary><strong>📚 Documentation technique</strong></summary>
+<summary><strong>📚 Documentation du projet</strong></summary>
 
 <br>
 
@@ -375,7 +378,7 @@ Auteur & mainteneur
 
 <div align="center">
 
-<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="64">
+<img src="assets/logo.png" alt="YES — Young Enterprise Switzerland" width="62">
 
 ### Un planning plus simple à préparer.  
 ### Une finale plus simple à organiser.
